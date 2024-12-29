@@ -55,6 +55,8 @@
 
 # Python Calendar, Date and Time
 
+https://docs.python.org/3.13/library/calendar.html#module-calendar
+
 - `calendar`: provides calendar printing functions like `cal(1)` Linux program
 - `datetime`: contains all the information from a `date` object and a `time` object
 - `date`: represents a date (year, month and day) in an idealized calendar
