@@ -1,6 +1,7 @@
 <?php
+namespace ksu\bizcal;
 
-class Day
+class BizDate implements Day
 {
     public int $year; 
     public int $month;
@@ -16,24 +17,24 @@ class Day
         $this->wday = date('w', $t);
     }
 
-    public static function createFromArray(array $arr)
+    public static function createFromArray(array $arr): Day
     {
-        return new Month($arr[0], $arr[1]);
+        return new BizDate($arr[0], $arr[1], $arr[2]);
     }
    
-    public static function createFromString(string $ym)
+    public static function createFromString(string $ymd): Day
     {
-        $arr = self::toArray($ym);
+        $arr = self::toArray($ymd);
         return self::createFromArray($arr);
     }
    
-    public static function toArray(string $ymd)
+    public static function toArray(string $ymd): array
     {
         [$y, $m, $d] = explode('-', $ymd);
         return [(int)$y,(int)$m, (int)$d];
-    }
+    }   
 
-    public static function toString(int $y, int $m, int $d)
+    public static function toString(int $y, int $m, int $d): string
     {
         return sprintf ("%d-%02d-%02d", $y, $m, $d);
     }
