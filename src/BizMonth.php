@@ -50,9 +50,37 @@ class BizMonth implements Month
         return ($this->year-$other->year) * 12 + $this->month-$other->month; 
     }
 
+    public function leq(Month $other): bool
+    {
+        return $this->diff($other) <=0;
+    }
+
     public function day(int $d): Day
     {
-        return new BizDate($this->year, $this->month, $d);
+        return new BizDay($this->year, $this->month, $d);
+    }
+
+    /**
+     * d2w(), transform a day of the month to the corresponding day of week  
+     * @param int $day,
+     * @return int the day of week for the `$day`
+     */
+    public function d2w(int $day): int
+    {
+        return ($day -1 + $this->firstwday) % 7 ;
+    }
+  
+    /**
+     * w2d(), transform the n'th day of week to the corresponding day of month
+     * @param int $nth, number, 1=first, 2=second, ... 
+     * @param int $dow, day of week
+     * @return int the corresponding day of month
+     */
+    public function w2d(int $nth, int $dow): int
+    {
+        $n = $dow >= $this->firstwday ? $nth - 1 : $nth; 
+        $d = $n * 7 + $dow - $this->firstwday + 1;
+        return ($d <= $this->lastday) ? $d : -1; 
     }
 
     public function __toString()

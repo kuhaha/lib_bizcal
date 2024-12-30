@@ -14,6 +14,8 @@ interface Month
     public function next(int $n = 1): Month;
 
     public function diff(Month $other): int;
+
+    public function leq(Month $other) : bool;
     
     public function day(int $d): Day;
 }
