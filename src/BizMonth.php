@@ -8,7 +8,6 @@ class BizMonth implements Month
     public int $lastday;
     public int $firstwday;
 
-
     function __construct(int $year, int $month)
     {
         $t = mktime(0, 0, 0, $month, 1, $year);        
@@ -55,15 +54,13 @@ class BizMonth implements Month
         return $this->diff($other) <=0;
     }
 
-    public function day(int $d): Day
+    public function day(int $day): Day
     {
-        return new BizDay($this->year, $this->month, $d);
+        return new BizDay($this->year, $this->month, $day);
     }
 
     /**
-     * d2w(), transform a day of the month to the corresponding day of week  
-     * @param int $day,
-     * @return int the day of week for the `$day`
+     * d2w(), return the day of week for the $day of the month   
      */
     public function d2w(int $day): int
     {
@@ -71,19 +68,16 @@ class BizMonth implements Month
     }
   
     /**
-     * w2d(), transform the n'th day of week to the corresponding day of month
-     * @param int $nth, number, 1=first, 2=second, ... 
-     * @param int $dow, day of week
-     * @return int the corresponding day of month
-     */
-    public function w2d(int $nth, int $dow): int
+     * w2d(), return the day of month for the $n'th day of week ($dow) 
+     **/
+    public function w2d(int $n, int $dow): int
     {
-        $n = $dow >= $this->firstwday ? $nth - 1 : $nth; 
+        $n = $dow >= $this->firstwday ? $n - 1 : $n; 
         $d = $n * 7 + $dow - $this->firstwday + 1;
         return ($d <= $this->lastday) ? $d : -1; 
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return self::toString($this->year, $this->month);
     }

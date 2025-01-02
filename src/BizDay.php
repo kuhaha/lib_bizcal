@@ -24,8 +24,7 @@ class BizDay implements Day
    
     public static function createFromString(string $ymd): Day
     {
-        $arr = self::toArray($ymd);
-        return self::createFromArray($arr);
+        return self::createFromArray(self::toArray($ymd));
     }
    
     public function next(int $n = 1): Day
