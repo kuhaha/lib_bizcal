@@ -18,4 +18,6 @@ interface Month
     public function leq(Month $other) : bool;
     
     public function day(int $d): Day;
+
+    public function lastDay(): Day;
 }

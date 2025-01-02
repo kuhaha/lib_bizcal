@@ -59,6 +59,11 @@ class BizMonth implements Month
         return new BizDay($this->year, $this->month, $day);
     }
 
+    public function lastDay(): Day
+    {
+        return new BizDay($this->year, $this->month, $this->lastday);
+    }
+
     /**
      * d2w(), return the day of week for the $day of the month   
      */
