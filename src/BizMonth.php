@@ -73,13 +73,25 @@ class BizMonth implements Month
     }
   
     /**
-     * w2d(), return the day of month for the $n'th day of week ($dow) 
+     * w2mday(), return the day of month for the $n'th day of week ($dow) 
      **/
-    public function w2d(int $n, int $dow): int
+    public function w2mday(int $dow, int $n): int
     {
         $n = $dow >= $this->firstwday ? $n - 1 : $n; 
         $d = $n * 7 + $dow - $this->firstwday + 1;
         return ($d <= $this->lastday) ? $d : -1; 
+    }
+
+    public function w2mdays(int $dow): array
+    {
+        $days = [];
+        $fw = $this->firstwday;
+        $d = $dow >= $fw ? $dow - $fw + 1 : 8 - $fw + $dow;
+        do {
+            $days[] = $d;
+            $d += 7;
+        } while ($d <= $this->lastday);
+        return $days;
     }
 
     public function __toString(): string

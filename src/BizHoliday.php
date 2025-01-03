@@ -115,7 +115,7 @@ class BizHoliday
     {
         $biz_month = new BizMonth($year, $month);
         if (is_integer($day_def)) return $day_def;
-        if (is_array($day_def)) return $biz_month->w2d($day_def[0], $day_def[1]);
+        if (is_array($day_def)) return $biz_month->w2mday($day_def[0], $day_def[1]);
         if (in_array($day_def, ['springEquinox', 'autumnEquinox']))
             return $this->equinox($day_def);
         return -1; 

@@ -18,16 +18,21 @@ class BizCalendarDef
         ],
         'CloseDay'=> [ // routinely close days of week
             [
-                'wdays' => [0, 6],
+                'wdays' => [0, 3, 6],
                 'months' => [1,2,3],
             ], 
-            [
-                'wdays' => [2, 3],
-                'months' => [9,10,11,12],
-            ], 
+            // [
+            //     'wdays' => [2, 3],
+            //     'months' => [9,10,11,12],
+            // ], 
+            [   
+                'mdays' => ['11-12', '12-03'],
+            ],
         ],
         'OpenDay' => [ // special open days
-            'mdays' =>  ['8-11', '10-14'],
+            [
+                'mdays' =>  ['8-11', '1-14'],
+            ],
         ],
     ];
 }

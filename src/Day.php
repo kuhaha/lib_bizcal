@@ -5,7 +5,7 @@ interface Day
 {
     public static function createFromArray(array $arr): Day;
 
-    public static function createFromString(string $ym): Day;
+    public static function createFromString(string $ymd): Day;
 
     public static function toArray(string $ymd): array;
     
@@ -20,4 +20,5 @@ interface Day
     public function between(Day $day1, Day $day2) : bool;
 
     public function sandwich(Day $other): mixed;
+
 }

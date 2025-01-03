@@ -19,5 +19,9 @@ interface Month
     
     public function day(int $d): Day;
 
+    public function w2mday(int $dow, int $n): int;
+
+    public function w2mdays(int $dow): array;
+
     public function lastDay(): Day;
 }
