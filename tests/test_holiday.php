@@ -24,7 +24,7 @@ $y = $_GET['y'] ?? $y;
 $m = $_GET['m'] ?? $m;
 $holiday = new BizHoliday($y, $m);
 echo $holiday->bzcal, PHP_EOL;
-$holidays = $holiday->parse()->holidays(3);
+$holidays = $holiday->parse()->holidays(5);
 print_r($holidays);
 
 echo $holiday->bzcal, PHP_EOL;

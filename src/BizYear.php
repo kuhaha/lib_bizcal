@@ -19,7 +19,8 @@ class BizYear implements Year
 
     function month(int $m): Month
     {  
-        return new BizMonth($this->year, $m);
+        $year = ($m < $this->firstMonth->month) ? $this->year+1 : $this->year;
+        return new BizMonth($year, $m);
     }
 
     function next(int $n = 1): Year
