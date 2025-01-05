@@ -23,6 +23,11 @@ class BizYear implements Year
         return new BizMonth($year, $m);
     }
 
+    function day(int $m, $d = 1): Day
+    {
+        return $this->month($m)->day($d);
+    }
+
     function next(int $n = 1): Year
     {
         return new BizYear($this->year + $n, $this->firstMonth->month);

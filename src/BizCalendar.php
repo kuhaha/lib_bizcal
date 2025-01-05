@@ -31,7 +31,9 @@ class BizCalendar extends BizYear
             $bzdays[$type] = [];
             foreach ($bizday_defs[$type] as $def){
                 if (array_key_exists('wdays', $def)){
-                    $months = $def['months'] ?? [];
+                    $months_for = $def['months-for'] ?? range(1,12);
+                    $months_exp = $def['months-except'] ?? [];
+                    $months = array_diff($months_for, $months_exp);
                     $mdays = $this->parseWdays($def['wdays'], $months);
                     $bzdays[$type] = array_merge($bzdays[$type], $mdays);
                 }
@@ -46,7 +48,6 @@ class BizCalendar extends BizYear
             }
             sort($bzdays[$type]);
         }
- 
         return $bzdays;
     }
 
@@ -71,19 +72,20 @@ class BizCalendar extends BizYear
     }
 
 
-    public function isDay(string $name, BizDay $day): bool
+    public function isDay(string $name, BizDay $bzday): bool
     {
-        if (array_key_exists($name, BzDef::BIZDAY_TYPE)){ 
-            if (isset($this->day_defs[$name]["$day"]))
+        if (array_key_exists($name, BzDef::BIZDAY_TYPE)){
+            $day = $bzday->format('m-d');
+            if (isset($this->bizdays[$name][$day]))
                 return true;
         }
         return false;
     }
 
-    public function nextDay(string $name, BizDay $day, int $n=1): Day
+    public function nextDay(string $name, BizDay $bzday, int $n=1): Day
     {
         $lastday = $this->lastMonth->lastDay();
-        $tmp_day = $day;
+        $tmp_day = $bzday;
         for ($i=0; $i < $n; $i++){
             while (!$this->isDay($name, $tmp_day)){
                 if (!$tmp_day->leq($lastday)) return null;

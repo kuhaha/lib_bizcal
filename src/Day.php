@@ -19,6 +19,8 @@ interface Day
 
     public function between(Day $day1, Day $day2) : bool;
 
+    public function format(string $fmt): string;
+
     public function sandwich(Day $other): mixed;
 
 }

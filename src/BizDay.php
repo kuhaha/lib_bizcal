@@ -68,6 +68,12 @@ class BizDay implements Day
         return false;
     }
 
+    public function format(string $fmt='m-d'): string
+    {
+        $t = mktime(0,0,0,$this->month, $this->day, $this->year);
+        return date($fmt, $t);
+    }
+
     public static function toArray(string $ymd): array
     {
         [$y, $m, $d] = explode('-', $ymd);

@@ -12,26 +12,29 @@ class BizCalendarDef
         'Holiday' => '祝日',
     ];
 
-    const BIZDAY_DEF = [
-        'Priority' => [ 
-            'OpenDay', 'CloseDay', // priori to open when both open and close are defined
-        ],
-        'CloseDay'=> [ // routinely close days of week
-            [
-                'wdays' => [0, 3, 6],
-                'months' => [1,2,3],
+    //By default what a day is except specified otherwise
+    const DEFAULT = 'OpenDay'; // 'CloseDay'; 
+
+    const BIZDAY_DEF = [      
+        
+        'CloseDay'=> [ 
+            [ // routinely close days of week
+                'wdays' => [0, 6],  // these days of week are close days
+                'months-except' => [1, 8],
+                // default for every month of the year
+            ],
+            [ // routinely close days of week
+                'wdays' => [4],  //　these days of week are close days
+                'months-for' => [1, 8], // for these months
             ], 
-            // [
-            //     'wdays' => [2, 3],
-            //     'months' => [9,10,11,12],
-            // ], 
-            [   
-                'mdays' => ['11-12', '12-03'],
+            [   // special close days
+                'mdays' => ['3-20', '1-15'],
             ],
         ],
+
         'OpenDay' => [ // special open days
             [
-                'mdays' =>  ['8-11', '1-14'],
+                'mdays' =>  ['3-12', '1-14', ],
             ],
         ],
     ];
