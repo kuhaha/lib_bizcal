@@ -71,26 +71,41 @@ class BizCalendar extends BizYear
         return $this;
     }
 
-
-    public function isDay(string $name, BizDay $bzday): bool
+    private function isBizDay(string $name, BizDay $bzday): bool
     {
         if (array_key_exists($name, BzDef::BIZDAY_TYPE)){
             $day = $bzday->format('m-d');
-            if (isset($this->bizdays[$name][$day]))
+            if (in_array($day, $this->bizdays[$name]??[]))
                 return true;
         }
         return false;
     }
 
-    public function nextDay(string $name, BizDay $bzday, int $n=1): Day
+    public function isOpenDay(BizDay $bzday)
+    {
+        $open = $this->isBizDay('OpenDay', $bzday) || !$this->isBizDay('CloseDay', $bzday);
+        $close = $this->isBizDay('CloseDay', $bzday) || !$this->isBizDay('OpenDay', $bzday);
+        return (BzDef::DEFAULT_TYPE == 'OpenDay') ? $open : !$close; 
+    }
+
+    /**
+     * Return next the n'th open business day starting from `$bzday` (inclusive) 
+     * e.g. nextOpenday($bzday, 4): [o]x[o][o]x[o]x, return the 4th openday(bracketed)   
+     *
+     * @param BizDay $bzday, the day to start
+     * @param integer $n, n'th openday
+     * @return Day, the n'th openday from `%bzday`
+     */
+    public function nextOpenDay(BizDay $bzday, int $n=1): Day
     {
         $lastday = $this->lastMonth->lastDay();
         $tmp_day = $bzday;
-        for ($i=0; $i < $n; $i++){
-            while (!$this->isDay($name, $tmp_day)){
-                if (!$tmp_day->leq($lastday)) return null;
+        for ($i = 1; $i < $n; $i++){
+            while (!$this->isOpenDay($tmp_day)){
+                  if (!$tmp_day->leq($lastday)) return null;
                 else $tmp_day = $tmp_day->next();
             }
+            $tmp_day = $tmp_day->next();
         }
         return $tmp_day;
     }

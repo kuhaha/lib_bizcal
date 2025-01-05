@@ -12,8 +12,8 @@ class BizCalendarDef
         'Holiday' => '祝日',
     ];
 
-    //By default what a day is except specified otherwise
-    const DEFAULT = 'OpenDay'; // 'CloseDay'; 
+    //By default what a day is 
+    const DEFAULT_TYPE = 'OpenDay'; // 'CloseDay'; 
 
     const BIZDAY_DEF = [      
         
@@ -34,7 +34,7 @@ class BizCalendarDef
 
         'OpenDay' => [ // special open days
             [
-                'mdays' =>  ['3-12', '1-14', ],
+                'mdays' =>  ['3-12', '4-18', ],
             ],
         ],
     ];
