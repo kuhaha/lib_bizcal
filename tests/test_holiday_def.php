@@ -6,34 +6,70 @@ use Symfony\Component\Yaml\Yaml;
 $defs = Yaml::parseFile('holiday_def.yaml');
 
 header("Content-Type: text/plain");
-function toString($v){
-    return (is_array($v)) ? '['.implode(',', $v).']' : "$v";
+function toString($v): string{
+    return (is_array($v)) ? '['.implode(',', $v).']' : $v;
 }
 
+function toArray($v){
+    return is_scalar($v) ? [$v] : $v;
+}
+
+function since(int $y, array $years): bool{
+    return $y >= $years[0];   
+}
+function between(int $y, array $years): bool{
+    if (count($years)>1) 
+        return $years[0] <= $y and $y <= $years[1];
+    else return false;
+}
+function except(int $y, array $years): bool{
+    return !in_array($y, $years);
+}
+function in(int $y, array $years): bool{
+    return in_array($y, $years);
+}
+
+function dow($def): void{
+    echo '  dow: ', toString($def), PHP_EOL;
+}
+function dom($def):void {
+    echo '  dom: ', toString($def), PHP_EOL;
+}
+
+function with($defs): void{
+    foreach ($defs as $def){
+        foreach (['dom','dow'] as $do){
+            if (isset($def[$do])){
+                echo "※";
+                call_user_func($do, $def[$do]);
+            }
+        }
+    }
+}
+$y = $_GET['y'] ?? 2020;
+
+echo $y, PHP_EOL;
 $names = $defs['HOLIDAY_NAMES'] ?? [];
 for($m = 1; $m < 13; $m++){
     echo 'month: ', $m, PHP_EOL;
-    if (!isset($defs[$m])) continue;
-    $m_defs = $defs[$m];
-    foreach ($m_defs as $def){
-        $name = $def['name'] ?? '祝日';
-        echo $name, PHP_EOL;
-        if (isset($def['dom'])){
-            echo '- dom: ', toString($def['dom']), PHP_EOL;  
-        }
-        if (isset($def['dow'])){
-            echo '- dow: ', toString($def['dow']), PHP_EOL;
-        }
-        if (isset($def['with'])){
-            foreach ($def['with'] as $_def){
-                if (isset($_def['dom'])){
-                    echo '  - dom: ', toString($_def['dom']), PHP_EOL;  
+    foreach ($defs[$m]??[] as $def){
+        $name = $def['name'] ?? '祝日';     
+        foreach ($def['with'] ?? [$def] as $_def){
+            $ok = $y >= 1948;
+            foreach (['since', 'between', 'except', 'in'] as $r){
+                if (isset($_def[$r])){
+                    $years = toArray($_def[$r]) ;
+                    $ok = $ok && call_user_func($r, $y, $years);
                 }
-                if (isset($_def['dow'])){
-                    echo '  - dow: ', toString($_def['dow']), PHP_EOL;
-                }        
+            }
+            if ($ok){
+                foreach (['dom','dow'] as $do){
+                    if (isset($_def[$do])){                    
+                        echo " ★", $name, PHP_EOL;
+                        call_user_func($do, $_def[$do]);  
+                    }
+                }
             }
         }
-        echo PHP_EOL;
     }
 } 
