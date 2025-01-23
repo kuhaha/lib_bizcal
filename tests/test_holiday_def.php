@@ -46,17 +46,6 @@ function dom($def):void {
     echo '  dom: ', toString($def), PHP_EOL;
 }
 
-function with($defs): void{
-    foreach ($defs as $def){
-        foreach (['dom','dow'] as $do){
-            if (isset($def[$do])){
-                echo "※";
-                call_user_func($do, $def[$do]);
-            }
-        }
-    }
-}
-
 function parseMonth(int $y, array $def){
     $name = $def['name'] ?? '祝日';     
     foreach ($def['with'] ?? [$def] as $_def){
