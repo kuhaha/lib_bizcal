@@ -46,6 +46,26 @@ function with($defs): void{
         }
     }
 }
+
+function parseMonth(int $y, array $def){
+    $name = $def['name'] ?? '祝日';     
+    foreach ($def['with'] ?? [$def] as $_def){
+        $ok = $y >= 1948;
+        foreach (['since', 'between', 'except', 'in'] as $r){
+            if (isset($_def[$r]))
+                $ok = $ok && call_user_func($r, $y, toArray($_def[$r]));
+        }
+        if ($ok){
+            foreach (['dom','dow'] as $do){
+                if (isset($_def[$do])){                    
+                    echo " ★", $name, PHP_EOL;
+                    call_user_func($do, $_def[$do]);  
+                }
+            }
+        }
+    }
+
+}
 $y = $_GET['y'] ?? 2020;
 
 echo $y, PHP_EOL;
@@ -53,23 +73,6 @@ $names = $defs['HOLIDAY_NAMES'] ?? [];
 for($m = 1; $m < 13; $m++){
     echo 'month: ', $m, PHP_EOL;
     foreach ($defs[$m]??[] as $def){
-        $name = $def['name'] ?? '祝日';     
-        foreach ($def['with'] ?? [$def] as $_def){
-            $ok = $y >= 1948;
-            foreach (['since', 'between', 'except', 'in'] as $r){
-                if (isset($_def[$r])){
-                    $years = toArray($_def[$r]) ;
-                    $ok = $ok && call_user_func($r, $y, $years);
-                }
-            }
-            if ($ok){
-                foreach (['dom','dow'] as $do){
-                    if (isset($_def[$do])){                    
-                        echo " ★", $name, PHP_EOL;
-                        call_user_func($do, $_def[$do]);  
-                    }
-                }
-            }
-        }
+        parseMonth($y, $def);
     }
 } 
