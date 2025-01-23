@@ -6,8 +6,9 @@ use Symfony\Component\Yaml\Yaml;
 $defs = Yaml::parseFile('holiday_def.yaml');
 
 header("Content-Type: text/plain");
+
 function toString($v): string{
-    return (is_array($v)) ? '['.implode(',', $v).']' : $v;
+    return is_array($v) ? '['.implode(',', $v).']' : $v;
 }
 
 function toArray($v){
@@ -27,6 +28,15 @@ function except(int $y, array $years): bool{
 }
 function in(int $y, array $years): bool{
     return in_array($y, $years);
+}
+
+function valid(int $y, array $def): bool{
+    $valid = $y >= 1948;
+    foreach (['since', 'between', 'except', 'in'] as $r){
+        if (isset($def[$r]))
+            $valid = $valid && call_user_func($r, $y, toArray($def[$r]) );
+    }
+    return $valid;
 }
 
 function dow($def): void{
