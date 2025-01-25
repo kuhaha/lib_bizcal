@@ -1,11 +1,18 @@
 <?php
 include '../vendor/autoload.php';
 
+use ksu\bizcal\BizDay;
+use ksu\bizcal\BizYear;
+
 use Symfony\Component\Yaml\Yaml;
 
 $defs = Yaml::parseFile('holiday_def.yaml');
 
 header("Content-Type: text/plain");
+class Holiday
+{
+
+}   
 
 function toString($v): string{
     return is_array($v) ? '['.implode(',', $v).']' : $v;
@@ -40,10 +47,10 @@ function valid(int $y, array $def): bool{
 }
 
 function dow($def): void{
-    echo '  dow: ', toString($def), PHP_EOL;
+    echo ' dow: ', toString($def), PHP_EOL;
 }
-function dom($def):void {
-    echo '  dom: ', toString($def), PHP_EOL;
+function day($def):void {
+    echo ' day: ', toString($def), PHP_EOL;
 }
 
 function parseMonth(int $y, array $def){
@@ -55,10 +62,10 @@ function parseMonth(int $y, array $def){
                 $ok = $ok && call_user_func($r, $y, toArray($_def[$r]));
         }
         if ($ok){
-            foreach (['dom','dow'] as $do){
+            foreach (['day','dow'] as $do){
                 if (isset($_def[$do])){                    
-                    echo " ★", $name, PHP_EOL;
-                    call_user_func($do, $_def[$do]);  
+                    call_user_func($do, $_def[$do]);
+                    echo "  ★", $name, PHP_EOL;  
                 }
             }
         }

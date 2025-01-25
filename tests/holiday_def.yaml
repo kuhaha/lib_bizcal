@@ -6,45 +6,45 @@
 #   in [y1, y2, ..],  int or array[int], including the listed years
 # Days:
 #   dow: day of week, array[int]
-#   dom: day of month, array[int]
+#   day: day of month, array[int]
 
 # Definition of Month
 1: # January
   - name: NewYearsDay
-    dom: 1
+    day: 1
   - name: ComingAgesDay
     with:
-      - dom: 15
+      - day: 15
         between: [1948, 1999]
       - dow: [1, 2] # 2nd Monday
         since: 2000
 2: # Febrary 
   - name: NationalFoundationDay
-    dom: 11
+    day: 11
     since: 1966 
   - name: EmperorsBirthday # 令和天皇
-    dom: 23
+    day: 23
     since: 2020
 3: # March
   - name: SpringEquinoxDay
     func: springEquinox
 4: # April
   - name: ShowaDay
-    dom: 29
+    day: 29
     since: 1989
   - name: EmperorsBirthday # 昭和天皇
-    dom: 29
+    day: 29
     between: [1910, 1988] 
 5: # May
   - name: CoronationDay
-    dom: 1
+    day: 1
     in: 2019
   - name: ConstitutionMemorialDay
-    dom: 3
+    day: 3
   - name: GreeneryDay
-    dom: 4
+    day: 4
   - name: ChildrensDay
-    dom: 5
+    day: 5
 6: # June
 
 7: # July
@@ -52,24 +52,24 @@
     with:
       - dow: [1, 3] # 3rd Monday
         except: [2020, 2021] 
-      - dom: 23
+      - day: 23
         in: 2020
-      - dom: 22
+      - day: 22
         in: 2021
   - name: SportsDay
     with:
-      - dom: 24
+      - day: 24
         in: 2020
-      - dom: 23
+      - day: 23
         in: 2021
 8: # Augest
   - name: MountainDay
     with:
-      - dom: 11
+      - day: 11
         except: [2020, 2021]
-      - dom: 10
+      - day: 10
         in: 2020
-      - dom: 8
+      - day: 8
         in: 2021
 9: # September
   - name: RespectForTheAgeDay
@@ -79,7 +79,7 @@
 10: # October
   - name: HealthSportsDay
     with:
-      - dom: 10
+      - day: 10
         between: [1966, 1999]
       - dow: [1, 2] # 2nd Monday
         between: [2000, 2019]
@@ -87,14 +87,14 @@
     dow: [1, 2] # 2nd Monday
     since: 2022
   - name: EnthronementProclamationCeremony
-    dom: 22
+    day: 22
     in: 2019
 11: # November
   - name: CultureDay
-    dom: 3
+    day: 3
   - name: LaborThanksgivingDay
-    dom: 23
+    day: 23
 12: # December
   - name: EmperorsBirthday # 平成天皇
-    dom: 23
+    day: 23
     between: [1989, 2018]
