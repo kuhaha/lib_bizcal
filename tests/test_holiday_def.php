@@ -30,16 +30,16 @@ function between(int $y, array $years): bool{
         return $years[0] <= $y and $y <= $years[1];
     else return false;
 }
-function except(int $y, array $years): bool{
+function excluding(int $y, array $years): bool{
     return !in_array($y, $years);
 }
-function in(int $y, array $years): bool{
+function including(int $y, array $years): bool{
     return in_array($y, $years);
 }
 
 function valid(int $y, array $def): bool{
     $valid = $y >= 1948;
-    foreach (['since', 'between', 'except', 'in'] as $r){
+    foreach (['since', 'between', 'excluding', 'including'] as $r){
         if (isset($def[$r]))
             $valid = $valid && call_user_func($r, $y, toArray($def[$r]) );
     }
@@ -55,9 +55,9 @@ function day($def):void {
 
 function parseMonth(int $y, array $def){
     $name = $def['name'] ?? '祝日';     
-    foreach ($def['with'] ?? [$def] as $_def){
+    foreach ($def['days'] ?? [$def] as $_def){
         $ok = $y >= 1948;
-        foreach (['since', 'between', 'except', 'in'] as $r){
+        foreach (['since', 'between', 'excluding', 'including'] as $r){
             if (isset($_def[$r]))
                 $ok = $ok && call_user_func($r, $y, toArray($_def[$r]));
         }
